@@ -1,0 +1,15 @@
+{
+  "name": "trashmap_server",
+  "version": "0.0.0",
+  "description": "",
+  "main": "trashmap_server.js",
+  "dependencies": {
+    "googleapis": "~0.4.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause"
+}
