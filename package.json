@@ -1,7 +1,7 @@
 {
   "name": "trashmap_server",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Fetch and provide analytics data to an Arduino",
   "main": "trashmap_server.js",
   "dependencies": {
     "googleapis": "~0.4.3",
@@ -12,6 +12,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Chris Ivens, Scott Timmins",
   "license": "BSD-2-Clause"
 }
