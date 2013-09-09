@@ -9,8 +9,8 @@ var gaApi = googleapis.discover('analytics', 'v3');
 var http = require('http');
 var _ = require('underscore');
 
-var clientId = '895532092393-p5ltb4qv85iakep91h46kfr509rirc93.apps.googleusercontent.com';
-var clientSecret = 'WwrC-ZbAWDkJm2NkhN5dKv-9';
+var clientId = '';
+var clientSecret = '';
 var port = 1337;
 var redirectUrl = 'http://localhost:' + port + '/oauth_response';
 var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
