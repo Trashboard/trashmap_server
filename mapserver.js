@@ -9,11 +9,11 @@ var gaApi = googleapis.discover('analytics', 'v3');
 var http = require('http');
 var _ = require('underscore');
 
-var clientId = '';
-var clientSecret = '';
+var config = require('./config.json');
+
 var port = 1337;
 var redirectUrl = 'http://localhost:' + port + '/oauth_response';
-var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectUrl);
+var oauth2Client = new OAuth2Client(config.client_id, config.client_secret, redirectUrl);
 
 var access_tokens_invalid = false;
 var access_token = '';
