@@ -97,7 +97,7 @@ function set_access_tokens(tokens) {
     console.log('REDIS: Saved access tokens');
   });
 
-  oauth2Client.credentials = tokens;
+  oauth2Client.credentials = { access_token: tokens.access_token, refresh_token : tokens.refresh_token };
 }
 
 /**
@@ -110,8 +110,6 @@ function redirect_for_auth(res) {
     scope: 'https://www.googleapis.com/auth/analytics.readonly'
   });
 
-  console.log(redirect_url);
-
   res.writeHead(301, {'Location': redirect_url});
   res.end('Redirecting');
 }
@@ -121,16 +119,20 @@ function redirect_for_auth(res) {
  */
 
 var getData = function(err, client) {
+  if(access_tokens_invalid === true) {
+    return;
+  }
+
   var params = {
     ids: 'ga:' + siteId,
-    'start-date': '2010-08-18',
+    'start-date': '2010-08-18', // Remove for realtime
     'end-date': '2013-08-20',
-    metrics: 'ga:pageviews',
-    dimensions: 'ga:subContinent,ga:country' //ga:continent,
+    metrics: 'ga:pageviews', // ga:activeVisitors
+    dimensions: 'ga:subContinent,ga:country' // ga:country,
   };
 
   client
-    .analytics.data.ga.get(params)
+    .analytics.data.ga.get(params) //analytics.data.realtime.get
     .withAuthClient(oauth2Client)
     .execute(function (err, response) {
       if(err) throw err;
@@ -156,16 +158,26 @@ http.createServer(function(req, res) {
     req_path = url_parts.pathname;
 
   if (req_path === '/oauth_response') {
-    console.log("RESPONSE TIME");
+    console.log("OAUTH RESPONSE");
     code = url_parts.query.code;
 
     oauth2Client.getToken(code, function(err, tokens) {
-      console.log(tokens);
       set_access_tokens(tokens);
     });
 
     res.writeHead(301, {'Location': 'http://localhost:' + port});
     res.end('Redirecting again');
+    return;
+  }
+
+  if (req_path === '/reset') {
+    console.log("RESET REQUEST");
+    code = url_parts.query.code;
+
+    access_tokens_invalid = true;
+
+    res.writeHead(301, {'Location': 'http://localhost:' + port});
+    res.end('Redirecting for auth');
     return;
   }
 
